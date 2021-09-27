@@ -4,9 +4,9 @@ import (
 )
 
 unit BuildDir ({
-    from    fs.Dir
-    lang    string
-    to      fs.Dir = fs.TempDir()
+	from    fs.Dir
+	lang    string
+	to      fs.Dir = fs.TempDir()
 }) {
 	container := linux.Container({
 		image: "arch",
