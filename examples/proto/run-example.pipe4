@@ -1,0 +1,11 @@
+import (
+	"pipe4/parser/examples/proto"
+)
+
+run BuildProtoFiles {
+	builds := proto.BuildGit({
+		from:	"./test/proto",
+		to: 	"./test/cpp",
+		lang:	"cpp",
+	})
+}

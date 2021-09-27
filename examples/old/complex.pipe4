@@ -21,16 +21,10 @@ type Props interface {
 // props, propsErr := core.Pipeline.Props(Props)
 
 func buildProto(props Props) {
-    gitChange, subscribeErr := git-subscibe({
+    gitChange[T], subscribeErr := git-subscibe({
         url: props.from,
         match: regexp(`.proto$`),
     }).each()
-
-    reg := javaregexpgenerator(teststream)
-
-    goodbytes := asmfilterbytes(prodstream, rawRegexp)
-    regexp("java", ".*")
-    PEG
 
     protoDir, pullErr := git-pull({
         url: gitChange.url,

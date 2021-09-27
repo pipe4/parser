@@ -1,0 +1,47 @@
+import (
+	"regexp"
+	"fs"
+	"errors"
+
+	"pipe4/parser/examples/git"
+)
+
+unit BuildGit ({
+    from    net.Url
+    to      net.Url
+    lang    string
+}) {
+    protoReg := regexp.RE2(`[^\/\\]+.proto$`)
+    subscription := git.Subscribe({url: from, match: protoReg})
+
+    change[E] := subscription.changes.latest()
+
+    clone[E] := git.Clone({
+    	from: change[E].url,
+    	filter: protoReg,
+    })
+
+    build[E] := BuildDir({
+    	from: clone[E].dir,
+    	lang: lang,
+    })
+
+    push[E] := git.Push({
+    	to: to,
+    	from: build[E].to,
+    })
+
+    err[E] := errors.JoinUnits([
+    	change[E],
+    	clone[E],
+    	build[E],
+    	push[E],
+    ])
+
+    buildInfo[E] := {
+    	diff:	push[E].diff,
+    	err:	err[E],
+    }
+
+	builds := buildInfo[E].stream()
+}

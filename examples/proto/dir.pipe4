@@ -1,0 +1,24 @@
+import (
+	"fs"
+	"pipe4/linux"
+)
+
+unit BuildDir ({
+    from    fs.Dir
+    lang    string
+    to      fs.Dir = fs.TempDir()
+}) {
+	container := linux.Container({
+		image: "arch",
+		install: ["protobuf"],
+		mount: {
+			"/from": from,
+			"/to": to,
+		},
+		workdir: "/from",
+	})
+
+	stdout, stderr, err := container.Run("protoc --${props.lang}_out /to `find . | grep .proto$`")
+
+	err | to = nil
+}

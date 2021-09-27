@@ -7,15 +7,27 @@ import (
     // уже существующая го либа, которая ничего не знает про наши пайплайны
     // но для которой мы можем сделать более удобную обертку под какую-то задачу в рамках пайплайна
     // в дальнейшем можно расширить наш модуль сделав возможность по разному пулить на разных языках.
-    go-git "github.com/go-git/go-git/v5"
+    go-git "go-git/go-git/v5"
 )
 
+type FileDiffInfo interface {
+	name 	string
+	newL	int
+	change	int
+	remove	int
+}
+
+type PushDiffInfo interface {
+	files []FileDiffInfo
+}
+
 unit Push ({
-    to	net.Url
+    to		net.Url
+    from    fs.Dir
     filter  regexp.Regexp = nil
-    dir     fs.Dir = fs.TempDir()
     ctx     context.Context = context.Background()
 }) {
-    cloneOptions := go-git.CloneOptions({URL: from})
-    repo, err := go-git.PlainCloneContext(ctx, dir.path, false, cloneOptions)
+	// @TODO
+	var err error
+	var diff PushDiffInfo
 }

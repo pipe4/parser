@@ -7,7 +7,7 @@ import (
     // уже существующая го либа, которая ничего не знает про наши пайплайны
     // но для которой мы можем сделать более удобную обертку под какую-то задачу в рамках пайплайна
     // в дальнейшем можно расширить наш модуль сделав возможность по разному пулить на разных языках.
-    go-git "github.com/go-git/go-git/v5"
+    go-git "go-git/go-git/v5"
 )
 
 unit Clone ({
@@ -18,4 +18,6 @@ unit Clone ({
 }) {
     cloneOptions := go-git.CloneOptions({URL: from})
     repo, err := go-git.PlainCloneContext(ctx, dir.path, false, cloneOptions)
+
+    err | dir = nil
 }
