@@ -1,0 +1,63 @@
+import (
+    "core/regexp"
+    "github.com/pegilang/core"
+    "github.com/pegipkg/git-subscribe"
+    "github.com/pegipkg/git-pull"
+    "github.com/pegipkg/linux-tool"
+    "github.com/pegipkg/git-push"
+    "github.com/pegipkg/regexp"
+
+    "javaregexpgenerator"
+    "asmfilterbytes"
+)
+
+type Props interface {
+    a_from  core.url
+    to      core.url
+    lang    core.string = 10
+}
+
+
+// props, propsErr := core.Pipeline.Props(Props)
+
+func buildProto(props Props) {
+    gitChange, subscribeErr := git-subscibe({
+        url: props.from,
+        match: regexp(`.proto$`),
+    }).each()
+
+    reg := javaregexpgenerator(teststream)
+
+    goodbytes := asmfilterbytes(prodstream, rawRegexp)
+    regexp("java", ".*")
+    PEG
+
+    protoDir, pullErr := git-pull({
+        url: gitChange.url,
+    })
+
+    outDir  := core.fs.tmp()
+
+    buildInfo, buildErr := linux-tool({
+        image: "arch",
+        install: ["protobuf"],
+        workdir: protoDir,
+        run: "protoc --${props.lang}_out ${outDir.path} `find ${protoDir.path} | grep .proto$`",
+    })
+
+
+    result, err :=
+        | buildInfo, a, b, c
+        | git-push({
+            to: props.to,
+            from: outDir,
+            clean: true,
+        })
+
+    compileInfo := {gitChangeNotification, pushInfo, buildInfo}
+    compileErr := core.error.join(pullErr, buildErr, pushErr)
+    compileStream := core.stream.from(compileInfo, compileErr)
+
+    return compileStream, core.error.join(propsErr, subscribeErr)
+}
+

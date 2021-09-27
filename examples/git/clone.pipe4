@@ -1,0 +1,21 @@
+import (
+    "fs"
+    "net"
+    "regexp"
+    "lang/go/context"
+
+    // уже существующая го либа, которая ничего не знает про наши пайплайны
+    // но для которой мы можем сделать более удобную обертку под какую-то задачу в рамках пайплайна
+    // в дальнейшем можно расширить наш модуль сделав возможность по разному пулить на разных языках.
+    go-git "github.com/go-git/go-git/v5"
+)
+
+unit Clone ({
+    from    net.Url
+    filter  regexp.Regexp	= nil
+    dir     fs.Dir 			= fs.TempDir()
+    ctx     context.Context = context.Background()
+}) {
+    cloneOptions := go-git.CloneOptions({URL: from})
+    repo, err := go-git.PlainCloneContext(ctx, dir.path, false, cloneOptions)
+}

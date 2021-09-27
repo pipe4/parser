@@ -1,0 +1,20 @@
+import (
+    "net"
+    "regexp"
+    "time"
+)
+
+type Subscription interface {
+    url     net.Url
+    ref     string
+    time    time.Time
+}
+
+unit Subscribe ({
+    url     net.Url
+    match   regexp.RE2 = nil
+}) {
+    // to implement
+    unit subscription Subscription
+    unit err error
+}
