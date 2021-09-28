@@ -19,5 +19,9 @@ unit Clone ({
 	cloneOptions := go-git.CloneOptions({URL: from})
 	repo, err := go-git.PlainCloneContext(ctx, dir.path, false, cloneOptions)
 
-	err | dir = nil
+//	err | dir = nil
+	if err {
+		return nil, err
+	}
+	return dir, nil
 }
