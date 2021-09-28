@@ -18,6 +18,8 @@ unit BuildDir ({
 		workdir: "/from",
 	})
 
+	
+
 	stdout, stderr, err := container.Run("protoc --${props.lang}_out /to `find . | grep .proto$`")
 
 	err | to = nil
